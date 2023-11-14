@@ -30,6 +30,11 @@ Submit=(e)=>{
     .catch((error)=>{alert("server not connected")})
     e.target[0].value=""
 }
+
+delete=(a)=>{
+  alert(a)
+}
+
 display=async()=>{
   const res=await axios.get("http://localhost:3001/React/gettask")
   this.setState({
@@ -45,13 +50,15 @@ componentDidMount(){
         <div className="container">
           <div className="textfield">
             <form action="" onSubmit={this.Submit}>
-            <input type="text" placeholder="   Task" onChange={this.handleKey} name="task"/>
+            <input type="text" placeholder="   Task" onChange={this.handleKey} name="task" value={this.state.task}/>
             </form>
           </div>
           <ul type="none">
             {
               this.state.getTask.map((dt)=>{
-                return(<li>{dt.task}</li>)
+                return(<li><div className="list">{dt.task}<button onClick={()=>{
+                  this.delete(dt._id)
+                }}>delete</button></div></li>)
               })
             }
           </ul> 
