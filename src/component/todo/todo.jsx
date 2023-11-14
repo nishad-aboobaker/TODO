@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./todo.css";
+import axios, { Axios } from "axios";
 
 export default class Todo extends Component {
   state={
@@ -12,17 +13,10 @@ handleKey=(e)=>{
 }
 
 Submit=(e)=>{
-  e.preventDefault()
   const{task}=this.state
-  fetch("http://localhost:3001/React/addtask", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      task
-      
-    }),
-  })
-    .then((res) => {
+  const data=axios.post("http://localhost:3001/React/addtask",{task})
+
+    data.then((res) => {
       if(res.status==201)
       {
         alert("Data Added")
@@ -33,6 +27,7 @@ Submit=(e)=>{
       }
     })
     .catch((error)=>{alert("server not connected")})
+    e.target[0].value=""
 }
 
 
@@ -43,8 +38,9 @@ Submit=(e)=>{
       <div>
         <div className="container">
           <div className="textfield">
+            <form action="" onSubmit={this.Submit}>
             <input type="text" placeholder="   Task" onChange={this.handleKey} name="task"/>
-            <div><button onClick={this.Submit}>ADD</button></div>
+            </form>
           </div>
           <ul type="none">
             <li>1</li>
