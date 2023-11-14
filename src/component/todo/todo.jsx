@@ -1,10 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, PureComponent } from "react";
 import "./todo.css";
 import axios, { Axios } from "axios";
 
-export default class Todo extends Component {
+export default class Todo extends PureComponent {
   state={
     task:"",
+    getTask:[]
 }
 handleKey=(e)=>{
     this.setState({
@@ -29,10 +30,15 @@ Submit=(e)=>{
     .catch((error)=>{alert("server not connected")})
     e.target[0].value=""
 }
-
-
-
-
+display=async()=>{
+  const res=await axios.get("http://localhost:3001/React/gettask")
+  this.setState({
+    getTask:res.data
+  })
+}
+componentDidMount(){
+  this.display();
+}
   render() {
     return (
       <div>
@@ -43,9 +49,11 @@ Submit=(e)=>{
             </form>
           </div>
           <ul type="none">
-            <li>1</li>
-            <li>1</li>
-            <li>1</li>
+            {
+              this.state.getTask.map((dt)=>{
+                return(<li>{dt.task}</li>)
+              })
+            }
           </ul> 
         </div>
       </div>
