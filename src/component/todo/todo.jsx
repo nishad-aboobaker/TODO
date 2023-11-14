@@ -32,7 +32,14 @@ Submit=(e)=>{
 }
 
 delete=(a)=>{
-  alert(a)
+  let id=a
+  const data=axios.delete(`http://localhost:3001/React/deltask/${id}`)
+  data.then(()=>{
+    alert("deleted");
+  }).catch((error)=>{
+    console.log(error);
+  })
+  this.display();
 }
 
 display=async()=>{
